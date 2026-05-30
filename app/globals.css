@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --macos-glass: rgba(255, 255, 255, 0.12);
+  --macos-glass-dark: rgba(0, 0, 0, 0.3);
+  --macos-border: rgba(255, 255, 255, 0.18);
+  --macos-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
+  --accent-blue: #0a84ff;
+  --traffic-red: #ff5f57;
+  --traffic-yellow: #febc2e;
+  --traffic-green: #28c840;
+  --text-primary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --menubar-height: 28px;
+  --dock-height: 80px;
+  --titlebar-height: 44px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  font-family: system-ui, -apple-system, "SF Pro Display", "Figtree", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.macos-blur {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.macos-glass-panel {
+  background: var(--macos-glass);
+  border: 1px solid var(--macos-border);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.wallpaper-aurora {
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #533483, #7b2cbf);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.wallpaper-big-sur {
+  background: linear-gradient(160deg, #1e3a5f, #2d5a87, #4a90c2, #87ceeb);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+}
+
+.wallpaper-sequoia {
+  background: linear-gradient(145deg, #2d1810, #4a3728, #6b5344, #8b7355, #c4a882);
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
+}
+
+.wallpaper-monterey {
+  background: linear-gradient(135deg, #0a1628, #1a365d, #2563eb, #60a5fa);
+  background-size: 400% 400%;
+  animation: gradientShift 16s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes dockBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-12px);
+  }
+  60% {
+    transform: translateY(-6px);
+  }
+}
+
+.dock-bounce {
+  animation: dockBounce 0.5s ease;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes bootProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.boot-progress-bar {
+  animation: bootProgress 2s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .wallpaper-aurora,
+  .wallpaper-big-sur,
+  .wallpaper-sequoia,
+  .wallpaper-monterey {
+    animation: none;
+  }
+}
+
+/* Scrollbar styling for app content */
+.macos-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.macos-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.macos-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.macos-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
