@@ -1,104 +1,37 @@
 "use client";
 
+import Image from "next/image";
+
 interface AppIconProps {
   name: string;
   size?: number;
   className?: string;
 }
 
-export function AppIcon({ name, size = 48, className = "" }: AppIconProps) {
-  const icons: Record<string, React.ReactNode> = {
-    finder: (
-      <svg viewBox="0 0 48 48" fill="none" className={className}>
-        <rect width="48" height="48" rx="12" fill="url(#finder-bg)" />
-        <path
-          d="M24 10C18 10 14 16 14 22C14 28 18 34 24 38C30 34 34 28 34 22C34 16 30 10 24 10Z"
-          fill="#007AFF"
-        />
-        <circle cx="20" cy="20" r="2" fill="white" />
-        <circle cx="28" cy="20" r="2" fill="white" />
-        <defs>
-          <linearGradient id="finder-bg" x1="0" y1="0" x2="48" y2="48">
-            <stop stopColor="#E8F4FF" />
-            <stop offset="1" stopColor="#B8D4F0" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
-    projects: (
-      <svg viewBox="0 0 48 48" fill="none" className={className}>
-        <rect width="48" height="48" rx="12" fill="url(#projects-bg)" />
-        <rect x="12" y="14" width="24" height="18" rx="2" fill="white" opacity="0.9" />
-        <rect x="14" y="16" width="8" height="6" rx="1" fill="#FF6B6B" />
-        <rect x="24" y="16" width="10" height="6" rx="1" fill="#4ECDC4" />
-        <rect x="14" y="24" width="20" height="6" rx="1" fill="#FFE66D" />
-        <defs>
-          <linearGradient id="projects-bg" x1="0" y1="0" x2="48" y2="48">
-            <stop stopColor="#FFF5E6" />
-            <stop offset="1" stopColor="#FFD699" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
-    terminal: (
-      <svg viewBox="0 0 48 48" fill="none" className={className}>
-        <rect width="48" height="48" rx="12" fill="#1E1E2E" />
-        <path d="M14 18L20 24L14 30" stroke="#28C840" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M22 30H32" stroke="#28C840" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
-    messages: (
-      <svg viewBox="0 0 48 48" fill="none" className={className}>
-        <rect width="48" height="48" rx="12" fill="url(#messages-bg)" />
-        <path
-          d="M12 16C12 14.9 12.9 14 14 14H34C35.1 14 36 14.9 36 16V28C36 29.1 35.1 30 34 30H18L12 36V16Z"
-          fill="white"
-        />
-        <defs>
-          <linearGradient id="messages-bg" x1="0" y1="0" x2="48" y2="48">
-            <stop stopColor="#34C759" />
-            <stop offset="1" stopColor="#248A3D" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
-    resume: (
-      <svg viewBox="0 0 48 48" fill="none" className={className}>
-        <rect width="48" height="48" rx="12" fill="url(#resume-bg)" />
-        <rect x="14" y="12" width="20" height="26" rx="2" fill="white" />
-        <rect x="17" y="16" width="14" height="2" rx="1" fill="#666" />
-        <rect x="17" y="20" width="10" height="1.5" rx="0.75" fill="#999" />
-        <rect x="17" y="23" width="12" height="1.5" rx="0.75" fill="#999" />
-        <rect x="17" y="26" width="8" height="1.5" rx="0.75" fill="#999" />
-        <defs>
-          <linearGradient id="resume-bg" x1="0" y1="0" x2="48" y2="48">
-            <stop stopColor="#FF6B6B" />
-            <stop offset="1" stopColor="#EE5A24" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
-    music: (
-      <svg viewBox="0 0 48 48" fill="none" className={className}>
-        <rect width="48" height="48" rx="12" fill="url(#music-bg)" />
-        <circle cx="24" cy="24" r="10" fill="#FC3C44" />
-        <path d="M24 14V34M14 24H34" stroke="white" strokeWidth="2" opacity="0.3" />
-        <defs>
-          <linearGradient id="music-bg" x1="0" y1="0" x2="48" y2="48">
-            <stop stopColor="#FC3C44" />
-            <stop offset="1" stopColor="#FA233B" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
-  };
+/** macOS system app icons extracted to /public/icons */
+const ICON_FILES: Record<string, string> = {
+  finder: "/icons/finder.png",
+  projects: "/icons/projects.png",
+  terminal: "/icons/terminal.png",
+  messages: "/icons/messages.png",
+  resume: "/icons/resume.png",
+  music: "/icons/music.png",
+};
 
-  const icon = icons[name] ?? icons.finder;
+export function AppIcon({ name, size = 48, className = "" }: AppIconProps) {
+  const src = ICON_FILES[name] ?? ICON_FILES.finder;
 
   return (
-    <div style={{ width: size, height: size }} className="flex-shrink-0">
-      {icon}
-    </div>
+    <Image
+      src={src}
+      alt=""
+      width={size}
+      height={size}
+      className={`flex-shrink-0 ${className}`}
+      style={{ width: size, height: size }}
+      aria-hidden
+      draggable={false}
+    />
   );
 }
 

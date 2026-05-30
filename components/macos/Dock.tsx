@@ -43,36 +43,38 @@ export function Dock() {
   };
 
   return (
-    <motion.div
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30, delay: 0.3 }}
-      className="fixed bottom-3 left-1/2 z-[900] -translate-x-1/2"
-    >
-      <div
-        className="flex items-end gap-1 rounded-2xl px-3 py-2 macos-glass-panel"
-        style={{
-          backdropFilter: "blur(20px) saturate(180%)",
-          background: "rgba(255,255,255,0.15)",
-          border: "1px solid rgba(255,255,255,0.2)",
-        }}
+    <div className="pointer-events-none fixed inset-x-0 bottom-3 z-[900] flex justify-center">
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30, delay: 0.3 }}
+        className="pointer-events-auto"
       >
-        {DOCK_APPS.map((app, index) => (
-          <DockIcon
-            key={app.id}
-            appId={app.id}
-            icon={app.icon}
-            label={app.title}
-            scale={getScale(index)}
-            isActive={!!windows[app.id]?.isOpen && !windows[app.id]?.isMinimized}
-            isBouncing={bouncingId === app.id}
-            onHover={() => setHoveredIndex(index)}
-            onLeave={() => setHoveredIndex(null)}
-            onClick={() => handleClick(app.id)}
-          />
-        ))}
-      </div>
-    </motion.div>
+        <div
+          className="flex items-end justify-center gap-1 rounded-2xl px-3 py-2 macos-glass-panel"
+          style={{
+            backdropFilter: "blur(20px) saturate(180%)",
+            background: "rgba(255,255,255,0.15)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+        >
+          {DOCK_APPS.map((app, index) => (
+            <DockIcon
+              key={app.id}
+              appId={app.id}
+              icon={app.icon}
+              label={app.title}
+              scale={getScale(index)}
+              isActive={!!windows[app.id]?.isOpen && !windows[app.id]?.isMinimized}
+              isBouncing={bouncingId === app.id}
+              onHover={() => setHoveredIndex(index)}
+              onLeave={() => setHoveredIndex(null)}
+              onClick={() => handleClick(app.id)}
+            />
+          ))}
+        </div>
+      </motion.div>
+    </div>
   );
 }
 

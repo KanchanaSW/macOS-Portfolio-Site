@@ -39,7 +39,7 @@ export function Desktop() {
             onClick={() => handleClick(icon.id)}
             aria-label={`Open ${icon.label}`}
           >
-            <div className="rounded-xl p-1 transition-shadow group-hover:shadow-lg macos-glass-panel">
+            <div className="transition-transform duration-200 group-hover:scale-105">
               <AppIcon name={icon.icon} size={48} />
             </div>
             <span className="max-w-full truncate text-center text-xs text-white drop-shadow-md">
