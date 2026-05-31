@@ -36,7 +36,9 @@ function getQuickLookLayout(file: FinderFile) {
   const width =
     file.type === "photo"
       ? Math.min(520, Math.floor(getMaxWindowWidth() * 0.42))
-      : Math.min(680, Math.floor(getMaxWindowWidth() * 0.46));
+      : file.type === "md"
+        ? Math.min(720, Math.floor(getMaxWindowWidth() * 0.48))
+        : Math.min(680, Math.floor(getMaxWindowWidth() * 0.46));
 
   return getCenteredWindowBounds({ width, height });
 }

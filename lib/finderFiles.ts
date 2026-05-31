@@ -34,35 +34,18 @@ export const FINDER_FILES: FinderFile[] = [
   },
 ];
 
-function formatSkillsList(items: string[]) {
-  return items.map((item) => `- ${item}`).join("\n");
-}
-
 export function getQuickLookMarkdown(file: FinderFile): string {
-  if (file.type === "code") {
-    return `export const portfolio = {
+  if (file.type !== "code") {
+    return "";
+  }
+
+  return `export const portfolio = {
   name: "${portfolio.name}",
   title: "${portfolio.title}",
   email: "${portfolio.email}",
   photo: "${portfolio.photo}",
   wallpaper: "${portfolio.wallpaper}",
 };`;
-  }
-
-  const aboutParagraphs = portfolio.bio
-    .split("\n\n")
-    .map((para) => para.trim())
-    .filter(Boolean)
-    .join("\n\n");
-
-  return `# ${portfolio.name}
-## ${portfolio.title}
-
-## About Me
-${aboutParagraphs}
-
-## Skills
-${formatSkillsList([...portfolio.skills.languages, ...portfolio.skills.frameworks.slice(0, 4)])}`;
 }
 
 export function getQuickLookOpenWithLabel(file: FinderFile): string {

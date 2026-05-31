@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { portfolio } from "@/portfolio.config";
+import { AboutMePreview } from "@/components/macos/AboutMePreview";
 import {
   getQuickLookMarkdown,
   getQuickLookOpenWithLabel,
@@ -71,7 +72,7 @@ export function QuickLook() {
 
   if (!file) return null;
 
-  const markdown = getQuickLookMarkdown(file);
+  const markdown = file.type === "code" ? getQuickLookMarkdown(file) : "";
   const openWithLabel = getQuickLookOpenWithLabel(file);
 
   return (
@@ -147,6 +148,8 @@ export function QuickLook() {
                   />
                 </div>
               </div>
+            ) : file.type === "md" ? (
+              <AboutMePreview />
             ) : (
               <pre className="whitespace-pre-wrap break-words p-4 font-mono text-[13px] leading-[1.65] text-white lg:p-6">
                 {markdown}
