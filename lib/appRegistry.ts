@@ -101,6 +101,18 @@ const SAFARI_DESKTOP_ICON = hasBlog
 
 export const DESKTOP_ICONS = [...BASE_DESKTOP_ICONS, ...SAFARI_DESKTOP_ICON];
 
+/** Finder sidebar — same apps as desktop; Safari label is always "Safari" */
+export const FINDER_SIDEBAR_ITEMS = [
+  ...BASE_DESKTOP_ICONS,
+  ...(hasBlog ? [{ id: "safari" as AppId, label: "Safari", icon: "safari" }] : []),
+];
+
+const FINDER_SIDEBAR_APP_IDS = new Set(FINDER_SIDEBAR_ITEMS.map((item) => item.id));
+
+export function isFinderSidebarApp(id: AppId): boolean {
+  return FINDER_SIDEBAR_APP_IDS.has(id);
+}
+
 export function getAppDefinition(id: AppId): AppDefinition | undefined {
   return [...APP_DEFINITIONS, ...DECORATIVE_APPS].find((app) => app.id === id);
 }

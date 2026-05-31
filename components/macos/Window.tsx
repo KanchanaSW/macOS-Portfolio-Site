@@ -52,8 +52,17 @@ function WindowFrame({ appId, title, children }: WindowProps) {
   const isTablet = useIsTablet();
   const isCompact = useIsCompact();
   const windowRef = useRef<HTMLDivElement>(null);
+  const hasEnteredRef = useRef(false);
   const [isMinimizing, setIsMinimizing] = useState(false);
   const [minimizeStyle, setMinimizeStyle] = useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    if (win?.isOpen && !win.isMinimized) {
+      hasEnteredRef.current = true;
+    } else if (!win?.isOpen) {
+      hasEnteredRef.current = false;
+    }
+  }, [win?.isOpen, win?.isMinimized]);
 
   const { handlePointerDown, handlePointerMove, handlePointerUp } = useDraggable(
     win?.position ?? { x: 0, y: 0 },
@@ -173,7 +182,9 @@ function WindowFrame({ appId, title, children }: WindowProps) {
       role="dialog"
       aria-label={title}
       aria-modal={isFocused}
-      initial={isMinimizing ? false : { scale: 0.8, opacity: 0 }}
+      initial={
+        isMinimizing || hasEnteredRef.current ? false : { scale: 0.8, opacity: 0 }
+      }
       animate={isMinimizing ? {} : { scale: 1, opacity: 1 }}
       exit={{ scale: 0.8, opacity: 0 }}
       transition={springConfig}
@@ -213,15 +224,14 @@ function WindowFrame({ appId, title, children }: WindowProps) {
     </motion.div>
   );
 
-  if (isFocused && !isMinimizing) {
-    return (
-      <FocusTrap focusTrapOptions={{ allowOutsideClick: true, escapeDeactivates: false }}>
-        {frame}
-      </FocusTrap>
-    );
-  }
-
-  return frame;
+  return (
+    <FocusTrap
+      active={isFocused && !isMinimizing}
+      focusTrapOptions={{ allowOutsideClick: true, escapeDeactivates: false }}
+    >
+      {frame}
+    </FocusTrap>
+  );
 }
 
 export function WindowLayer() {

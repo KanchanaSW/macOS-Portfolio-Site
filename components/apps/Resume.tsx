@@ -35,7 +35,7 @@ export default function Resume() {
       <div className="min-h-0 flex-1 overflow-auto p-4 macos-scroll lg:p-6">
         <div
           id="resume-content"
-          className="mx-auto max-w-lg rounded-lg bg-white p-4 text-gray-900 shadow-lg lg:p-8"
+          className="mx-auto w-full max-w-3xl rounded-lg bg-white p-4 text-gray-900 shadow-lg lg:p-8"
         >
           <header className="mb-6 border-b border-gray-200 pb-4">
             <h1 className="text-2xl font-bold">{portfolio.name}</h1>

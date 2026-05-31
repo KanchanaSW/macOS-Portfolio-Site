@@ -3,16 +3,25 @@
 import { create } from "zustand";
 import type { AppId, WindowState } from "@/types/macos";
 import { getAppDefinition, resolveAppId } from "@/lib/appRegistry";
-import { getViewportWindowBounds } from "@/lib/windowBounds";
+import {
+  getStackedWindowBounds,
+  getViewportWindowBounds,
+  scaleSizeForDesktop,
+} from "@/lib/windowBounds";
 
 const BASE_Z_INDEX = 100;
-const STORAGE_KEY = "macos-window-positions";
+const STORAGE_KEY = "macos-window-positions-v2";
+
+export interface OpenWindowOptions {
+  /** Place to the right of an open window with a wider size (Finder sidebar) */
+  stackBesideOpen?: boolean;
+}
 
 interface WindowManagerState {
   windows: Record<AppId, WindowState>;
   focusedWindowId: AppId | null;
   maxZIndex: number;
-  openWindow: (id: AppId) => void;
+  openWindow: (id: AppId, options?: OpenWindowOptions) => void;
   closeWindow: (id: AppId) => void;
   minimizeWindow: (id: AppId) => void;
   restoreWindow: (id: AppId) => void;
@@ -23,14 +32,45 @@ interface WindowManagerState {
   getFrontmostWindow: () => WindowState | null;
 }
 
-function createInitialWindow(id: AppId, zIndex: number): WindowState {
+function getOpenVisibleWindows(windows: Record<AppId, WindowState>): WindowState[] {
+  return Object.values(windows).filter((w) => w.isOpen && !w.isMinimized);
+}
+
+function pickStackAnchor(windows: Record<AppId, WindowState>): WindowState | undefined {
+  const open = getOpenVisibleWindows(windows);
+  if (open.length === 0) return undefined;
+  return open.find((w) => w.id === "finder") ?? open.reduce((left, w) => (w.position.x < left.position.x ? w : left));
+}
+
+function createInitialWindow(
+  id: AppId,
+  zIndex: number,
+  windows: Record<AppId, WindowState>,
+  options?: OpenWindowOptions
+): WindowState {
   const def = getAppDefinition(id);
   const savedPositions = loadSavedPositions();
   const saved = savedPositions[id];
 
   const defaultPosition = saved?.position ?? def?.defaultPosition ?? { x: 100, y: 80 };
-  const defaultSize = saved?.size ?? def?.defaultSize ?? { width: 600, height: 400 };
-  const { position, size } = getViewportWindowBounds(defaultPosition, defaultSize);
+  const baseSize = saved?.size ?? def?.defaultSize ?? { width: 600, height: 400 };
+  const defaultSize = saved ? baseSize : scaleSizeForDesktop(baseSize);
+
+  let position = defaultPosition;
+  let size = defaultSize;
+
+  if (options?.stackBesideOpen && !saved) {
+    const anchor = pickStackAnchor(windows);
+    if (anchor) {
+      const stacked = getStackedWindowBounds(anchor, defaultSize);
+      position = stacked.position;
+      size = stacked.size;
+    }
+  } else {
+    const bounds = getViewportWindowBounds(defaultPosition, defaultSize);
+    position = bounds.position;
+    size = bounds.size;
+  }
 
   return {
     id,
@@ -71,7 +111,7 @@ export const useWindowManager = create<WindowManagerState>((set, get) => ({
   focusedWindowId: null,
   maxZIndex: BASE_Z_INDEX,
 
-  openWindow: (rawId) => {
+  openWindow: (rawId, options) => {
     const id = resolveAppId(rawId);
     const def = getAppDefinition(id);
     if (!def || def.decorative) return;
@@ -92,7 +132,7 @@ export const useWindowManager = create<WindowManagerState>((set, get) => ({
     set({
       windows: {
         ...windows,
-        [id]: createInitialWindow(id, newZ),
+        [id]: createInitialWindow(id, newZ, windows, options),
       },
       focusedWindowId: id,
       maxZIndex: newZ,

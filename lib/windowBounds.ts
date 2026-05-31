@@ -109,6 +109,20 @@ export function isCompactViewport(): boolean {
   return window.innerWidth <= 1023;
 }
 
+/** Desktop (lg+): default window widths are scaled by this factor */
+export const DESKTOP_WIDTH_SCALE = 1.5;
+
+export function scaleSizeForDesktop(size: { width: number; height: number }): {
+  width: number;
+  height: number;
+} {
+  if (isCompactViewport()) return size;
+  return {
+    width: Math.round(size.width * DESKTOP_WIDTH_SCALE),
+    height: size.height,
+  };
+}
+
 export function getViewportWindowBounds(
   position: { x: number; y: number },
   size: { width: number; height: number }
@@ -116,4 +130,33 @@ export function getViewportWindowBounds(
   const clampedSize = clampWindowSize(size);
   const clampedPosition = clampWindowPosition(position, clampedSize);
   return { position: clampedPosition, size: clampedSize };
+}
+
+const STACK_GAP = 24;
+const STACK_Y_OFFSET = 20;
+/** Wider default when opening a second window beside an existing one */
+const STACKED_WIDTH_FACTOR = 1.28;
+
+export interface WindowBoundsInput {
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+}
+
+/** Position and size for a new window placed to the right of an anchor window */
+export function getStackedWindowBounds(
+  anchor: WindowBoundsInput,
+  preferredSize: { width: number; height: number }
+): { position: { x: number; y: number }; size: { width: number; height: number } } {
+  const widerSize = {
+    width: Math.round(preferredSize.width * STACKED_WIDTH_FACTOR),
+    height: preferredSize.height,
+  };
+
+  return getViewportWindowBounds(
+    {
+      x: anchor.position.x + anchor.size.width + STACK_GAP,
+      y: anchor.position.y + STACK_Y_OFFSET,
+    },
+    widerSize
+  );
 }
