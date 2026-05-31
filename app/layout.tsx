@@ -15,10 +15,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Alex Morgan — Portfolio",
+  title: "Kanchana - Portfolio",
   description: "Interactive macOS desktop portfolio showcasing projects, skills, and experience.",
   openGraph: {
-    title: "Alex Morgan — Portfolio",
+    title: "Kanchana - Portfolio",
     description: "Interactive macOS desktop portfolio",
     type: "website",
   },
