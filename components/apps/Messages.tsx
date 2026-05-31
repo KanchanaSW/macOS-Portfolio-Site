@@ -59,6 +59,18 @@ function ContactLinks() {
           GitHub
         </a>
       </p>
+      {portfolio.blog && (
+        <p>
+          <a
+            href={portfolio.blog}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClass}
+          >
+            Developer Blog
+          </a>
+        </p>
+      )}
     </div>
   );
 }

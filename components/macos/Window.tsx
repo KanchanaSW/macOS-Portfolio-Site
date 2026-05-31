@@ -17,6 +17,7 @@ import Projects from "@/components/apps/Projects";
 import Terminal from "@/components/apps/Terminal";
 import Messages from "@/components/apps/Messages";
 import Resume from "@/components/apps/Resume";
+import Safari from "@/components/apps/Safari";
 
 const APP_COMPONENTS: Partial<Record<AppId, React.ComponentType>> = {
   finder: Finder,
@@ -24,6 +25,7 @@ const APP_COMPONENTS: Partial<Record<AppId, React.ComponentType>> = {
   terminal: Terminal,
   messages: Messages,
   resume: Resume,
+  safari: Safari,
 };
 
 const springConfig = { type: "spring" as const, stiffness: 300, damping: 30 };

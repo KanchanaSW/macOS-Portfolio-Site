@@ -4,6 +4,7 @@ export type AppId =
   | "terminal"
   | "messages"
   | "resume"
+  | "safari"
   | "about"
   | "skills"
   | "contact";
@@ -16,6 +17,11 @@ export interface Project {
   tech: string[];
   github?: string;
   live?: string;
+}
+
+export interface BlogPost {
+  title: string;
+  url: string;
 }
 
 export interface Skills {

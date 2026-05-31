@@ -19,6 +19,27 @@ function buildSearchIndex(): SpotlightResult[] {
     type: "app",
   }));
 
+  if (portfolio.blog) {
+    results.push({
+      id: "blog",
+      title: portfolio.blogTitle ?? "Developer Blog",
+      subtitle: "Developer Blog",
+      appId: "safari",
+      type: "app",
+    });
+  }
+
+  portfolio.blogPosts?.forEach((post, index) => {
+    const slug = post.url.split("/").pop() ?? `post-${index}`;
+    results.push({
+      id: `blog-${slug}`,
+      title: post.title,
+      subtitle: "Article",
+      appId: "safari",
+      type: "app",
+    });
+  });
+
   portfolio.projects.forEach((p) => {
     results.push({
       id: `project-${p.name}`,

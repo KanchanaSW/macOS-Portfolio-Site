@@ -1,6 +1,7 @@
+import { portfolio } from "@/portfolio.config";
 import type { AppId, AppDefinition } from "@/types/macos";
 
-export const APP_DEFINITIONS: AppDefinition[] = [
+const BASE_APP_DEFINITIONS: AppDefinition[] = [
   {
     id: "finder",
     title: "About Me",
@@ -48,6 +49,26 @@ export const APP_DEFINITIONS: AppDefinition[] = [
   },
 ];
 
+const hasBlog =
+  !!portfolio.blog || (portfolio.blogPosts?.length ?? 0) > 0;
+
+const SAFARI_APP: AppDefinition | undefined = hasBlog
+  ? {
+      id: "safari",
+      title: portfolio.blogTitle ?? "Safari",
+      icon: "safari",
+      defaultSize: { width: 960, height: 640 },
+      defaultPosition: { x: 160, y: 70 },
+      dock: true,
+      desktop: true,
+    }
+  : undefined;
+
+export const APP_DEFINITIONS: AppDefinition[] = [
+  ...BASE_APP_DEFINITIONS,
+  ...(SAFARI_APP ? [SAFARI_APP] : []),
+];
+
 export const DECORATIVE_APPS: AppDefinition[] = [
   {
     id: "about",
@@ -60,13 +81,25 @@ export const DECORATIVE_APPS: AppDefinition[] = [
   },
 ];
 
-export const DESKTOP_ICONS = [
+const BASE_DESKTOP_ICONS = [
   { id: "finder" as AppId, label: "About Me", icon: "finder" },
   { id: "projects" as AppId, label: "Projects", icon: "projects" },
   { id: "resume" as AppId, label: "Resume", icon: "resume" },
   { id: "messages" as AppId, label: "Contact", icon: "messages" },
   { id: "terminal" as AppId, label: "Skills", icon: "terminal" },
 ];
+
+const SAFARI_DESKTOP_ICON = hasBlog
+  ? [
+      {
+        id: "safari" as AppId,
+        label: portfolio.blogTitle ?? "Blog",
+        icon: "safari",
+      },
+    ]
+  : [];
+
+export const DESKTOP_ICONS = [...BASE_DESKTOP_ICONS, ...SAFARI_DESKTOP_ICON];
 
 export function getAppDefinition(id: AppId): AppDefinition | undefined {
   return [...APP_DEFINITIONS, ...DECORATIVE_APPS].find((app) => app.id === id);

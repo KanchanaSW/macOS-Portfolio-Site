@@ -1,4 +1,4 @@
-import type { Project, Skills, WallpaperStyle } from "./types/macos";
+import type { BlogPost, Project, Skills, WallpaperStyle } from "./types/macos";
 
 /**
  * Portfolio configuration — edit this file to personalize your site.
@@ -13,6 +13,39 @@ export const portfolio = {
   /** Social profiles */
   linkedin: "https://www.linkedin.com/in/connectskw/",
   github: "https://github.com/KanchanaSW",
+  /** Developer blog (Safari app appears when set) */
+  blog: "https://medium.com/@sachithrakanchana.ks",
+  blogTitle: "My Developer Blog",
+  blogDescription:
+    "Articles on frontend engineering, tech leadership, and shipping quality software.",
+  blogPosts: [
+    {
+      title:
+        "10 Clean Code Rules I Follow as a Senior Software Engineer (Lessons Learned From Real Production Bugs)",
+      url: "https://medium.com/@sachithrakanchana.ks/10-clean-code-rules-i-follow-as-a-senior-software-engineer-lessons-learned-from-real-production-9838c495400f",
+    },
+    {
+      title: "Using the Figma MCP Server with Cursor AI",
+      url: "https://medium.com/codex/using-the-figma-mcp-server-with-cursor-ai-709111561de0",
+    },
+    {
+      title: "Beyond Autocomplete: How Cursor AI Became My Essential Pair Programmer",
+      url: "https://medium.com/codex/beyond-autocomplete-how-cursor-ai-became-my-essential-pair-programmer-396433d8de9b",
+    },
+    {
+      title: "Beyond Caching: Guaranteeing UX Even When Your API Fails",
+      url: "https://medium.com/@sachithrakanchana.ks/beyond-caching-guaranteeing-ux-even-when-your-api-fails-025dcdae7ded",
+    },
+    {
+      title:
+        "Enhance React Development with async/await: Simplifying Asynchronous Code",
+      url: "https://medium.com/@sachithrakanchana.ks/enhance-react-development-with-async-await-simplifying-asynchronous-code-a6e2dd3de9db",
+    },
+    {
+      title: "Implement Lazy Loading in Android (MVP + NestedScrollView)",
+      url: "https://medium.com/@sachithrakanchana.ks/implement-lazy-loading-in-android-mvp-nestedscrollview-755d9b29c847",
+    },
+  ] satisfies BlogPost[],
   /** Path to headshot (place image in /public/images/) */
   photo: "/images/photo.jpg",
   /** Short bio paragraphs for Finder README preview */

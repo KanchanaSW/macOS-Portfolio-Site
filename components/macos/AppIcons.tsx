@@ -15,6 +15,7 @@ const ICON_FILES: Record<string, string> = {
   terminal: "/icons/terminal.png",
   messages: "/icons/messages.png",
   resume: "/icons/resume.png",
+  safari: "/icons/safari.png",
   music: "/icons/music.png",
 };
 
