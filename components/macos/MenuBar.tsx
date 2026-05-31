@@ -69,7 +69,7 @@ export function MenuBar() {
       </div>
 
       {/* Center - hidden on small screens */}
-      <span className="hidden font-medium text-white/80 md:block">{focusedTitle}</span>
+      <span className="hidden font-medium text-white/80 md:block">{portfolio.name + " - " + portfolio.title}</span>
 
       {/* Right */}
       <div className="flex items-center gap-3">

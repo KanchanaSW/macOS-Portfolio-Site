@@ -9,7 +9,7 @@ export default function Resume() {
   };
 
   return (
-    <div className="flex h-full flex-col bg-[#3a3a3c] text-white">
+    <div className="flex h-full min-h-0 flex-col bg-[#3a3a3c] text-white">
       {/* Toolbar */}
       <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
         <div className="flex items-center gap-2">
@@ -32,7 +32,7 @@ export default function Resume() {
       </div>
 
       {/* Resume content */}
-      <div className="flex-1 overflow-auto p-6 macos-scroll">
+      <div className="min-h-0 flex-1 overflow-auto p-6 macos-scroll">
         <div
           id="resume-content"
           className="mx-auto max-w-lg rounded-lg bg-white p-8 text-gray-900 shadow-lg"

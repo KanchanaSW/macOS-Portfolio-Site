@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import type { AppId, WindowState } from "@/types/macos";
 import { getAppDefinition, resolveAppId } from "@/lib/appRegistry";
+import { getViewportWindowBounds } from "@/lib/windowBounds";
 
 const BASE_Z_INDEX = 100;
 const STORAGE_KEY = "macos-window-positions";
@@ -27,14 +28,18 @@ function createInitialWindow(id: AppId, zIndex: number): WindowState {
   const savedPositions = loadSavedPositions();
   const saved = savedPositions[id];
 
+  const defaultPosition = saved?.position ?? def?.defaultPosition ?? { x: 100, y: 80 };
+  const defaultSize = saved?.size ?? def?.defaultSize ?? { width: 600, height: 400 };
+  const { position, size } = getViewportWindowBounds(defaultPosition, defaultSize);
+
   return {
     id,
     isOpen: true,
     isMinimized: false,
     isFullscreen: false,
     zIndex,
-    position: saved?.position ?? def?.defaultPosition ?? { x: 100, y: 80 },
-    size: saved?.size ?? def?.defaultSize ?? { width: 600, height: 400 },
+    position,
+    size,
   };
 }
 

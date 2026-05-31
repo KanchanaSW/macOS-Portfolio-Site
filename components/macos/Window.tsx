@@ -8,6 +8,7 @@ import { useWindowManager } from "@/hooks/useWindowManager";
 import { useDraggable } from "@/hooks/useDraggable";
 import { getAppDefinition } from "@/lib/appRegistry";
 import { getDockIconElement } from "@/lib/dockRefs";
+import { getViewportWindowBounds } from "@/lib/windowBounds";
 import { TrafficLights } from "./TrafficLights";
 import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 import Finder from "@/components/apps/Finder";
@@ -102,6 +103,7 @@ function WindowFrame({ appId, title, children }: WindowProps) {
 
   const isFocused = focusedWindowId === appId;
   const dragDisabled = isMobile || isTablet || win.isFullscreen;
+  const viewportBounds = getViewportWindowBounds(win.position, win.size);
 
   const windowStyle: React.CSSProperties = isMinimizing
     ? minimizeStyle
@@ -136,10 +138,11 @@ function WindowFrame({ appId, title, children }: WindowProps) {
             }
           : {
               position: "fixed",
-              left: win.position.x,
-              top: win.position.y,
-              width: win.size.width,
-              height: win.size.height,
+              left: viewportBounds.position.x,
+              top: viewportBounds.position.y,
+              width: viewportBounds.size.width,
+              height: viewportBounds.size.height,
+              maxHeight: "calc(100vh - 28px - 80px - 16px)",
               zIndex: win.zIndex,
             };
 
@@ -182,7 +185,7 @@ function WindowFrame({ appId, title, children }: WindowProps) {
       </div>
 
       <div
-        className="flex-1 overflow-hidden macos-glass-panel"
+        className="flex min-h-0 flex-1 overflow-hidden macos-glass-panel"
         style={{ backdropFilter: "blur(40px)", background: "rgba(255,255,255,0.08)" }}
       >
         {children}

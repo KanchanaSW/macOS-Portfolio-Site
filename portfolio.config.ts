@@ -68,7 +68,7 @@ When I'm not coding, you'll find me exploring AI-assisted development tools, con
         "React Flow",
         "Web Crypto API",
       ],
-      github: "https://github.com/KanchanaSW",
+      // github: "https://github.com/KanchanaSW",
       live: "https://jsonshare.org",
     },
     {
@@ -83,7 +83,7 @@ When I'm not coding, you'll find me exploring AI-assisted development tools, con
         "Groq API",
         "GitHub Actions",
       ],
-      github: "https://github.com/KanchanaSW",
+      // github: "https://github.com/KanchanaSW",
       live: "https://slstocks.netlify.app",
     },
     {
@@ -98,7 +98,7 @@ When I'm not coding, you'll find me exploring AI-assisted development tools, con
         "React Hook Form",
         "Framer Motion",
       ],
-      github: "https://github.com/KanchanaSW",
+      // github: "https://github.com/KanchanaSW",
     },
     {
       name: "SmartNas",
@@ -112,7 +112,7 @@ When I'm not coding, you'll find me exploring AI-assisted development tools, con
         "Dagger",
         "Material Design",
       ],
-      github: "https://github.com/KanchanaSW",
+      // github: "https://github.com/KanchanaSW",
     },
     {
       name: "macOS Portfolio",
@@ -150,16 +150,16 @@ When I'm not coding, you'll find me exploring AI-assisted development tools, con
           "Integrated Adjust SDK event tracking and resolved SonarQube-flagged issues across codebases",
         ],
       },
-      {
-        role: "Frontend Developer",
-        company: "Tribird (Remote, Part-time)",
-        period: "Mar 2025 — Aug 2025",
-        bullets: [
-          "Built Wildwood Packiyo with Next.js 15, React 19, GraphQL, React Query, and Zustand",
-          "Developed interactive dashboards with Recharts and React Table, advanced filtering, and bulk operations",
-          "Leveraged SSR, dynamic routing, and code splitting to improve SEO and initial page load times",
-        ],
-      },
+      // {
+      //   role: "Frontend Developer",
+      //   company: "Tribird (Remote, Part-time)",
+      //   period: "Mar 2025 — Aug 2025",
+      //   bullets: [
+      //     "Built Wildwood Packiyo with Next.js 15, React 19, GraphQL, React Query, and Zustand",
+      //     "Developed interactive dashboards with Recharts and React Table, advanced filtering, and bulk operations",
+      //     "Leveraged SSR, dynamic routing, and code splitting to improve SEO and initial page load times",
+      //   ],
+      // },
       {
         role: "Associate Software Engineer",
         company: "Informatics International",
