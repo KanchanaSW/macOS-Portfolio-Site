@@ -23,8 +23,50 @@ const INITIAL_MESSAGES: Message[] = [
     text: portfolio.messages.contact,
     sender: "owner",
     timestamp: new Date(),
+    rich: "contact",
   },
 ];
+
+function ContactLinks() {
+  const linkClass =
+    "text-[#64D2FF] underline underline-offset-2 hover:text-[#7AE0FF]";
+
+  return (
+    <div className="space-y-1.5">
+      <p>{portfolio.messages.contact}</p>
+      <p>
+        <a href={`mailto:${portfolio.email}`} className={linkClass}>
+          {portfolio.email}
+        </a>
+      </p>
+      <p>
+        <a
+          href={portfolio.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClass}
+        >
+          LinkedIn
+        </a>
+      </p>
+      <p>
+        <a
+          href={portfolio.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={linkClass}
+        >
+          GitHub
+        </a>
+      </p>
+    </div>
+  );
+}
+
+function MessageContent({ msg }: { msg: Message }) {
+  if (msg.rich === "contact") return <ContactLinks />;
+  return <>{msg.text}</>;
+}
 
 export default function Messages() {
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
@@ -89,7 +131,7 @@ export default function Messages() {
                   : "bg-[#3A3A3C] text-white"
               }`}
             >
-              {msg.text}
+              <MessageContent msg={msg} />
             </div>
           </div>
         ))}

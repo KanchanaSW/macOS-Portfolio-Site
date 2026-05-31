@@ -66,6 +66,7 @@ export interface Message {
   text: string;
   sender: "owner" | "visitor";
   timestamp: Date;
+  rich?: "contact";
 }
 
 export interface NotificationItem {

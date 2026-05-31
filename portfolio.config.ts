@@ -10,6 +10,9 @@ export const portfolio = {
   title: "Senior Software Engineer – Frontend",
   /** Contact email */
   email: "sachithrakanchana.ks@gmail.com",
+  /** Social profiles */
+  linkedin: "https://www.linkedin.com/in/connectskw/",
+  github: "https://github.com/KanchanaSW",
   /** Path to headshot (place image in /public/images/) */
   photo: "/images/photo.jpg",
   /** Short bio paragraphs for Finder README preview */
@@ -180,11 +183,11 @@ When I'm not coding, you'll find me exploring AI-assisted development tools, con
   messages: {
     greeting: "Hey! Thanks for checking out my portfolio 👋",
     availability: "I'm currently open to new opportunities",
-    contact: "Feel free to reach out at sachithrakanchana.ks@gmail.com",
+    contact: "Feel free to reach out:",
     cannedReplies: {
       hire: "Yes! I'm open to full-time and contract roles. Drop me an email and let's chat!",
       email:
-        "You can reach me at sachithrakanchana.ks@gmail.com — I typically respond within 24 hours.",
+        "You can reach me by email, LinkedIn, or GitHub — links are in my last message above!",
       project: "Check out the Projects app in the dock for my latest work!",
       default:
         "Thanks for reaching out! Feel free to ask about my projects, skills, or availability.",
