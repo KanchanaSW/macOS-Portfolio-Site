@@ -5,8 +5,10 @@ import type { FinderFile } from "@/lib/finderFiles";
 import {
   clampWindowPosition,
   getCenteredWindowBounds,
+  getCompactWindowBounds,
   getMaxWindowHeight,
   getMaxWindowWidth,
+  isCompactViewport,
 } from "@/lib/windowBounds";
 
 const BASE_Z = 200;
@@ -25,6 +27,11 @@ interface QuickLookState {
 }
 
 function getQuickLookLayout(file: FinderFile) {
+  if (isCompactViewport()) {
+    const { position, size } = getCompactWindowBounds();
+    return { position, size };
+  }
+
   const height = getMaxWindowHeight();
   const width =
     file.type === "photo"

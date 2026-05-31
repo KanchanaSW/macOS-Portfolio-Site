@@ -236,7 +236,7 @@ export default function Finder() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 px-3 pb-2">
+        <div className="hidden lg:flex items-center gap-2 px-3 pb-2">
           <div className="flex h-7 flex-1 items-center rounded-md bg-black/25 px-2.5 text-[12px] text-white/50">
             {currentFolder}
           </div>
@@ -252,7 +252,7 @@ export default function Finder() {
 
       <div className="flex min-h-0 flex-1">
         {/* Sidebar */}
-        <aside className="macos-finder-sidebar w-[180px] flex-shrink-0 overflow-y-auto macos-scroll py-2 pl-2 pr-1">
+        <aside className="macos-finder-sidebar hidden w-[180px] flex-shrink-0 overflow-y-auto macos-scroll py-2 pl-2 pr-1 lg:flex lg:flex-col">
           {SIDEBAR_SECTIONS.map((section, idx) => (
             <div key={idx} className={idx > 0 ? "mt-3" : ""}>
               {section.title && (
@@ -284,11 +284,11 @@ export default function Finder() {
 
         {/* List view */}
         <div className="flex min-w-0 flex-1 flex-col">
-          <div className="grid grid-cols-[minmax(180px,2fr)_80px_1.2fr_1.4fr] gap-2 border-b border-white/[0.06] px-3 py-1.5 text-[11px] font-medium text-white/35">
+          <div className="grid grid-cols-[1fr_auto] gap-2 border-b border-white/[0.06] px-3 py-1.5 text-[11px] font-medium text-white/35 lg:grid-cols-[minmax(180px,2fr)_80px_1.2fr_1.4fr]">
             <span>Name</span>
             <span>Size</span>
-            <span>Kind</span>
-            <span>Date Added</span>
+            <span className="hidden lg:block">Kind</span>
+            <span className="hidden lg:block">Date Added</span>
           </div>
 
           <div className="flex-1 overflow-y-auto macos-scroll">
@@ -300,7 +300,7 @@ export default function Finder() {
                   setSelectedFile(file.name);
                   openQuickLook(file);
                 }}
-                className={`macos-finder-list-row grid w-full grid-cols-[minmax(180px,2fr)_80px_1.2fr_1.4fr] gap-2 px-3 py-[5px] text-left text-[13px] ${
+                className={`macos-finder-list-row grid w-full grid-cols-[1fr_auto] gap-2 px-3 py-[5px] text-left text-[13px] lg:grid-cols-[minmax(180px,2fr)_80px_1.2fr_1.4fr] ${
                   selectedFile === file.name ? "macos-finder-list-row-selected" : ""
                 }`}
               >
@@ -309,8 +309,8 @@ export default function Finder() {
                   <span className="truncate">{file.name}</span>
                 </span>
                 <span className="text-white/55">{file.size}</span>
-                <span className="truncate text-white/55">{file.kind}</span>
-                <span className="truncate text-white/55">{file.dateAdded}</span>
+                <span className="hidden truncate text-white/55 lg:block">{file.kind}</span>
+                <span className="hidden truncate text-white/55 lg:block">{file.dateAdded}</span>
               </button>
             ))}
           </div>
@@ -318,7 +318,7 @@ export default function Finder() {
       </div>
 
       {/* Path bar */}
-      <div className="flex h-6 flex-shrink-0 items-center gap-1 border-t border-white/[0.06] bg-black/15 px-3 text-[11px] text-white/45">
+      <div className="flex h-6 flex-shrink-0 items-center gap-1 overflow-x-auto whitespace-nowrap border-t border-white/[0.06] bg-black/15 px-3 text-[11px] text-white/45 macos-scroll">
         <span>Macintosh HD</span>
         <span className="text-white/25">›</span>
         <span>Users</span>

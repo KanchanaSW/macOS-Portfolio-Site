@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { portfolio } from "@/portfolio.config";
+import { useIsCompact } from "@/hooks/useMediaQuery";
 import type { BlogPost } from "@/types/macos";
 
 type SelectionId = "home" | `post-${number}`;
@@ -116,6 +117,8 @@ const BLOG_POSTS = portfolio.blogPosts ?? [];
 export default function Safari() {
   const [selectedId, setSelectedId] = useState<SelectionId>("home");
   const [copied, setCopied] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
+  const isCompact = useIsCompact();
 
   const hasBlog = !!portfolio.blog || BLOG_POSTS.length > 0;
 
@@ -139,6 +142,18 @@ export default function Safari() {
     }
   }, [currentUrl]);
 
+  const handleSelect = useCallback(
+    (id: SelectionId) => {
+      setSelectedId(id);
+      if (isCompact) setShowSidebar(false);
+    },
+    [isCompact]
+  );
+
+  const handleBack = useCallback(() => {
+    setShowSidebar(true);
+  }, []);
+
   if (!hasBlog) {
     return (
       <div className="flex h-full items-center justify-center bg-[#F5F5F7] text-sm text-[#3C3C43]/70">
@@ -161,13 +176,20 @@ export default function Safari() {
       "Articles on frontend engineering, tech leadership, and shipping quality software.")
     : "Opens on Medium in your browser.";
 
+  const showList = !isCompact || showSidebar;
+  const showContent = !isCompact || !showSidebar;
+
   return (
     <div className="flex h-full flex-col bg-[#F5F5F7]">
       <div
         className="flex flex-shrink-0 items-center gap-1.5 border-b border-black/[0.08] px-2 py-1.5"
         style={{ background: "#E8E8ED" }}
       >
-        <ToolbarButton label="Back" disabled>
+        <ToolbarButton
+          label="Back"
+          disabled={!isCompact || showSidebar}
+          onClick={isCompact && !showSidebar ? handleBack : undefined}
+        >
           <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
             <path d="M10.5 3.5 5 8l5.5 4.5-.75.875L3.625 8l6.125-5.125.75.625Z" />
           </svg>
@@ -194,8 +216,11 @@ export default function Safari() {
       </div>
 
       <div className="flex min-h-0 flex-1">
+        {showList && (
         <aside
-          className="flex w-[220px] flex-shrink-0 flex-col border-r border-black/[0.08] macos-scroll"
+          className={`flex flex-col border-r border-black/[0.08] macos-scroll ${
+            isCompact ? "w-full flex-shrink" : "w-[220px] flex-shrink-0"
+          }`}
           style={{ background: "#EFEFF4" }}
         >
           <div className="flex-1 overflow-auto px-2 py-3">
@@ -207,7 +232,7 @@ export default function Safari() {
                 <NavItem
                   label={portfolio.blogTitle ?? "Developer Blog"}
                   isActive={selectedId === "home"}
-                  onSelect={() => setSelectedId("home")}
+                  onSelect={() => handleSelect("home")}
                   onOpenExternal={() => openUrl(portfolio.blog!)}
                 />
               </div>
@@ -226,7 +251,7 @@ export default function Safari() {
                         key={id}
                         label={post.title}
                         isActive={selectedId === id}
-                        onSelect={() => setSelectedId(id)}
+                        onSelect={() => handleSelect(id)}
                         onOpenExternal={() => openUrl(post.url)}
                       />
                     );
@@ -236,9 +261,11 @@ export default function Safari() {
             )}
           </div>
         </aside>
+        )}
 
-        <div className="flex flex-1 items-center justify-center overflow-auto p-8 macos-scroll">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-lg ring-1 ring-black/[0.06]">
+        {showContent && (
+        <div className="flex flex-1 items-center justify-center overflow-auto p-4 lg:p-8 macos-scroll">
+          <div className="w-full max-w-lg rounded-2xl bg-white p-4 lg:p-8 shadow-lg ring-1 ring-black/[0.06]">
             <div className="mb-4 flex items-center gap-2">
               <span className="rounded-md bg-[#F2F2F7] px-2 py-0.5 text-[11px] font-medium text-[#3C3C43]/70">
                 {host}
@@ -265,6 +292,7 @@ export default function Safari() {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

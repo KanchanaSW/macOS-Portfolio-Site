@@ -90,7 +90,7 @@ export default function Terminal() {
 
   return (
     <div
-      className="h-full overflow-auto p-4 font-mono text-sm macos-scroll"
+      className="h-full overflow-auto break-words p-4 font-mono text-sm macos-scroll"
       style={{ background: "#1E1E2E", color: "#E0E0E0" }}
     >
       <div className="mb-2 text-white/40">Last login: {new Date().toLocaleString()}</div>

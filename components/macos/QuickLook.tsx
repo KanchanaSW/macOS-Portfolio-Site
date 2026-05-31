@@ -10,6 +10,7 @@ import {
 } from "@/lib/finderFiles";
 import { useQuickLook } from "@/hooks/useQuickLook";
 import { useDraggable } from "@/hooks/useDraggable";
+import { useIsCompact } from "@/hooks/useMediaQuery";
 
 const springConfig = { type: "spring" as const, stiffness: 320, damping: 28 };
 
@@ -50,8 +51,10 @@ export function QuickLook() {
   const { isOpen, file, position, size, zIndex, closeQuickLook, updatePosition, focusQuickLook, relayoutQuickLook } =
     useQuickLook();
   const windowRef = useRef<HTMLDivElement>(null);
+  const isCompact = useIsCompact();
 
   const { handlePointerDown, handlePointerMove, handlePointerUp } = useDraggable(position, {
+    disabled: isCompact,
     onDragEnd: updatePosition,
   });
 
@@ -91,7 +94,9 @@ export function QuickLook() {
             height: size.height,
             zIndex,
           }}
-          className="flex flex-col overflow-hidden rounded-[10px] macos-window text-white"
+          className={`flex flex-col overflow-hidden macos-window text-white ${
+            isCompact ? "rounded-none" : "rounded-[10px]"
+          }`}
           onMouseDown={focusQuickLook}
         >
           <div
@@ -108,6 +113,7 @@ export function QuickLook() {
             </div>
 
             <div className="ml-auto flex items-center gap-2 pr-3">
+              {!isCompact && (
               <button
                 type="button"
                 aria-label="Share"
@@ -117,11 +123,12 @@ export function QuickLook() {
                   <path d="M11 5.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM5 8.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Zm6 3a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Zm-1.06-2.03a.75.75 0 0 0-1.28.77l.97.56a2.25 2.25 0 0 1-2.3 3.9.75.75 0 1 0 .82 1.26 3.75 3.75 0 0 0 3.84-6.5l.97-.56a.75.75 0 0 0-.02-1.43Z" />
                 </svg>
               </button>
+              )}
               <button
                 type="button"
                 className="rounded-full bg-[var(--macos-selection-blue)] px-3 py-1 text-[12px] font-medium text-white transition-opacity hover:opacity-90"
               >
-                {openWithLabel}
+                {isCompact ? "Open" : openWithLabel}
               </button>
             </div>
           </div>
@@ -129,7 +136,7 @@ export function QuickLook() {
           <div className="min-h-0 flex-1 overflow-y-auto macos-scroll bg-[rgba(0,0,0,0.18)]">
             {file.type === "photo" ? (
               <div className="flex h-full items-center justify-center p-6">
-                <div className="relative aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-lg shadow-lg">
+                <div className="relative aspect-[4/5] w-full max-w-full overflow-hidden rounded-lg shadow-lg lg:max-w-[420px]">
                   <Image
                     src={portfolio.photo}
                     alt={portfolio.name}
@@ -141,7 +148,7 @@ export function QuickLook() {
                 </div>
               </div>
             ) : (
-              <pre className="whitespace-pre-wrap break-words p-6 font-mono text-[13px] leading-[1.65] text-white">
+              <pre className="whitespace-pre-wrap break-words p-4 font-mono text-[13px] leading-[1.65] text-white lg:p-6">
                 {markdown}
               </pre>
             )}

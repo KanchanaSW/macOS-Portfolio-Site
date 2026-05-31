@@ -35,7 +35,7 @@ function ContactLinks() {
     <div className="space-y-1.5">
       <p>{portfolio.messages.contact}</p>
       <p>
-        <a href={`mailto:${portfolio.email}`} className={linkClass}>
+        <a href={`mailto:${portfolio.email}`} className={`${linkClass} break-all`}>
           {portfolio.email}
         </a>
       </p>
@@ -162,7 +162,7 @@ export default function Messages() {
       </div>
 
       {/* Input */}
-      <div className="flex items-center gap-2 border-t border-white/10 px-3 py-2">
+      <div className="flex items-center gap-2 border-t border-white/10 px-3 py-2 pb-safe">
         <input
           type="text"
           value={input}

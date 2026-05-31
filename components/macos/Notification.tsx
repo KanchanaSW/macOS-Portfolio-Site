@@ -16,7 +16,7 @@ export function NotificationCenter() {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 60, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="pointer-events-auto w-72 rounded-2xl p-4 macos-glass-panel shadow-xl"
+            className="pointer-events-auto w-72 max-w-[calc(100vw-2rem)] rounded-2xl p-4 macos-glass-panel shadow-xl"
           >
             <div className="flex items-start justify-between">
               <div>

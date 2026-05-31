@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        lg: "1024px",
+      },
       fontFamily: {
         sans: [
           "system-ui",

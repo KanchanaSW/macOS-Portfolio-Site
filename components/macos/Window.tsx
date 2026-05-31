@@ -8,9 +8,9 @@ import { useWindowManager } from "@/hooks/useWindowManager";
 import { useDraggable } from "@/hooks/useDraggable";
 import { getAppDefinition } from "@/lib/appRegistry";
 import { getDockIconElement } from "@/lib/dockRefs";
-import { getViewportWindowBounds } from "@/lib/windowBounds";
+import { getViewportWindowBounds, getViewportChrome, getCompactWindowBounds } from "@/lib/windowBounds";
 import { TrafficLights } from "./TrafficLights";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsMobile, useIsTablet, useIsCompact } from "@/hooks/useMediaQuery";
 import { WindowControlsProvider } from "@/contexts/WindowControlsContext";
 import Finder from "@/components/apps/Finder";
 import Projects from "@/components/apps/Projects";
@@ -50,6 +50,7 @@ function WindowFrame({ appId, title, children }: WindowProps) {
   const win = windows[appId];
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
+  const isCompact = useIsCompact();
   const windowRef = useRef<HTMLDivElement>(null);
   const [isMinimizing, setIsMinimizing] = useState(false);
   const [minimizeStyle, setMinimizeStyle] = useState<React.CSSProperties>({});
@@ -107,7 +108,10 @@ function WindowFrame({ appId, title, children }: WindowProps) {
   const isFocused = focusedWindowId === appId;
   const dragDisabled = isMobile || isTablet || win.isFullscreen;
   const viewportBounds = getViewportWindowBounds(win.position, win.size);
-  const usesUnifiedToolbar = appId === "finder" && !isMobile && !isTablet;
+  const usesUnifiedToolbar = appId === "finder" && !isCompact;
+
+  const chrome = getViewportChrome();
+  const compactBounds = isMobile ? getCompactWindowBounds() : null;
 
   const windowControlsValue = {
     onClose: () => closeWindow(appId),
@@ -128,18 +132,18 @@ function WindowFrame({ appId, title, children }: WindowProps) {
       ? {
           position: "fixed",
           left: 0,
-          top: 28,
+          top: chrome.top,
           width: "100vw",
-          height: "calc(100vh - 28px - 80px)",
+          height: `calc(100vh - ${chrome.top}px - ${chrome.bottom}px)`,
           zIndex: win.zIndex,
         }
-      : isMobile
+      : isMobile && compactBounds
         ? {
             position: "fixed",
-            left: 0,
-            top: 44,
-            width: "100vw",
-            height: "calc(100vh - 44px)",
+            left: compactBounds.position.x,
+            top: compactBounds.position.y,
+            width: compactBounds.size.width,
+            height: compactBounds.size.height,
             zIndex: win.zIndex,
           }
         : isTablet
@@ -174,9 +178,9 @@ function WindowFrame({ appId, title, children }: WindowProps) {
       exit={{ scale: 0.8, opacity: 0 }}
       transition={springConfig}
       style={windowStyle}
-      className={`flex flex-col overflow-hidden rounded-[10px] macos-window ${
-        isFocused ? "ring-1 ring-white/[0.08]" : "ring-1 ring-transparent"
-      }`}
+      className={`flex flex-col overflow-hidden macos-window ${
+        isCompact ? "rounded-none" : "rounded-[10px]"
+      } ${isFocused ? "ring-1 ring-white/[0.08]" : "ring-1 ring-transparent"}`}
       onMouseDown={() => focusWindow(appId)}
     >
       {!usesUnifiedToolbar && (

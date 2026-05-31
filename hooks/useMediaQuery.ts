@@ -25,6 +25,14 @@ export function useIsTablet() {
   return useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
 }
 
+export function useIsCompact() {
+  return useMediaQuery("(max-width: 1023px)");
+}
+
+export function useIsDesktop() {
+  return useMediaQuery("(min-width: 1024px)");
+}
+
 export function usePrefersReducedMotion() {
   return useMediaQuery("(prefers-reduced-motion: reduce)");
 }

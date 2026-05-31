@@ -53,7 +53,7 @@ export default function Projects() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-[#2a2a2e]/95 p-6 backdrop-blur-xl"
+              className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-[#2a2a2e]/95 p-4 backdrop-blur-xl lg:p-6"
             >
               <div className="mb-1 flex items-start justify-between">
                 <h2 className="text-lg font-semibold">{selectedProject.name}</h2>

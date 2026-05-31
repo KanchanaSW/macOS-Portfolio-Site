@@ -22,7 +22,7 @@ export function ControlCenter() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed right-4 top-9 z-[1501] w-72 rounded-2xl p-4 macos-glass-panel shadow-2xl"
+            className="fixed right-4 top-9 z-[1501] w-72 max-w-[calc(100vw-2rem)] rounded-2xl p-4 macos-glass-panel shadow-2xl"
           >
             <div className="mb-3 grid grid-cols-2 gap-2">
               <ToggleModule label="Wi-Fi" value="Home Network" active />

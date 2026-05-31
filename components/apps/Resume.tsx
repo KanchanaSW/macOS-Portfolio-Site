@@ -32,10 +32,10 @@ export default function Resume() {
       </div>
 
       {/* Resume content */}
-      <div className="min-h-0 flex-1 overflow-auto p-6 macos-scroll">
+      <div className="min-h-0 flex-1 overflow-auto p-4 macos-scroll lg:p-6">
         <div
           id="resume-content"
-          className="mx-auto max-w-lg rounded-lg bg-white p-8 text-gray-900 shadow-lg"
+          className="mx-auto max-w-lg rounded-lg bg-white p-4 text-gray-900 shadow-lg lg:p-8"
         >
           <header className="mb-6 border-b border-gray-200 pb-4">
             <h1 className="text-2xl font-bold">{portfolio.name}</h1>
@@ -52,7 +52,7 @@ export default function Resume() {
             <h2 className="mb-2 text-sm font-bold uppercase tracking-wider text-gray-500">Experience</h2>
             {portfolio.resume.experience.map((exp) => (
               <div key={exp.company} className="mb-4">
-                <div className="flex items-baseline justify-between">
+                <div className="flex flex-col items-baseline justify-between gap-0.5 lg:flex-row lg:gap-0">
                   <h3 className="font-semibold">{exp.role}</h3>
                   <span className="text-xs text-gray-500">{exp.period}</span>
                 </div>

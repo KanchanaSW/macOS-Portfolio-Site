@@ -24,7 +24,16 @@
   --text-secondary: rgba(255, 255, 255, 0.5);
   --menubar-height: 28px;
   --dock-height: 80px;
+  --statusbar-height: 44px;
   --titlebar-height: 44px;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 * {
