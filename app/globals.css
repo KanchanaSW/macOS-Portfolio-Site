@@ -9,6 +9,13 @@
   --macos-glass-dark: rgba(0, 0, 0, 0.3);
   --macos-border: rgba(255, 255, 255, 0.18);
   --macos-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
+  --macos-window-bg: rgba(28, 28, 30, 0.78);
+  --macos-window-border: rgba(255, 255, 255, 0.12);
+  --macos-sidebar-bg: rgba(0, 0, 0, 0.22);
+  --macos-toolbar-bg: rgba(255, 255, 255, 0.04);
+  --macos-row-hover: rgba(255, 255, 255, 0.06);
+  --macos-row-selected: rgba(10, 132, 255, 0.35);
+  --macos-selection-blue: #0a84ff;
   --accent-blue: #0a84ff;
   --traffic-red: #ff5f57;
   --traffic-yellow: #febc2e;
@@ -45,6 +52,49 @@ body {
   border: 1px solid var(--macos-border);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.macos-window {
+  background: var(--macos-window-bg);
+  border: 1px solid var(--macos-window-border);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 24px 64px rgba(0, 0, 0, 0.25);
+}
+
+.macos-finder-sidebar {
+  background: var(--macos-sidebar-bg);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.macos-finder-toolbar {
+  background: var(--macos-toolbar-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.macos-finder-sidebar-item {
+  border-radius: 6px;
+  transition: background-color 0.12s ease;
+}
+
+.macos-finder-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.macos-finder-sidebar-item-active {
+  background: var(--macos-selection-blue);
+  color: #fff;
+}
+
+.macos-finder-list-row:hover {
+  background: var(--macos-row-hover);
+}
+
+.macos-finder-list-row-selected {
+  background: var(--macos-row-selected);
 }
 
 .wallpaper-aurora {

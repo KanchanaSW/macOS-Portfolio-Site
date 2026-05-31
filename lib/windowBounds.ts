@@ -2,6 +2,8 @@ const MENUBAR_HEIGHT = 28;
 const DOCK_HEIGHT = 80;
 const WINDOW_MARGIN = 16;
 
+export { MENUBAR_HEIGHT, DOCK_HEIGHT, WINDOW_MARGIN };
+
 export function getMaxWindowHeight(): number {
   if (typeof window === "undefined") return 600;
   return window.innerHeight - MENUBAR_HEIGHT - DOCK_HEIGHT - WINDOW_MARGIN;
@@ -36,6 +38,25 @@ export function clampWindowPosition(
   return {
     x: Math.max(minX, Math.min(position.x, maxX)),
     y: Math.max(minY, Math.min(position.y, maxY)),
+  };
+}
+
+export function getCenteredWindowBounds(size: { width: number; height: number }): {
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+} {
+  const clampedSize = clampWindowSize(size);
+
+  if (typeof window === "undefined") {
+    return { position: { x: 280, y: MENUBAR_HEIGHT + WINDOW_MARGIN / 2 }, size: clampedSize };
+  }
+
+  const x = Math.round((window.innerWidth - clampedSize.width) / 2);
+  const y = MENUBAR_HEIGHT + WINDOW_MARGIN / 2;
+
+  return {
+    position: clampWindowPosition({ x, y }, clampedSize),
+    size: clampedSize,
   };
 }
 

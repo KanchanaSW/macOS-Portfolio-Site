@@ -5,6 +5,7 @@ import { MenuBar } from "./MenuBar";
 import { Dock } from "./Dock";
 import { Desktop } from "./Desktop";
 import { WindowLayer } from "./Window";
+import { QuickLook } from "./QuickLook";
 import { Spotlight } from "./Spotlight";
 import { ControlCenter } from "./ControlCenter";
 import { NotificationCenter } from "./Notification";
@@ -42,6 +43,7 @@ export function DesktopShell() {
           <Desktop />
           {isMobile && <MobileSpringboard />}
           <WindowLayer />
+          <QuickLook />
           {!isMobile && <Dock />}
           <Spotlight />
           <ControlCenter />

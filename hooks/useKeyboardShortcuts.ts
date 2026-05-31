@@ -2,10 +2,12 @@
 
 import { useEffect } from "react";
 import { useWindowManager, useSystemStore } from "@/hooks/useWindowManager";
+import { useQuickLook } from "@/hooks/useQuickLook";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export function useKeyboardShortcuts() {
   const { closeWindow, getFrontmostWindow } = useWindowManager();
+  const { isOpen: quickLookOpen, closeQuickLook } = useQuickLook();
   const { spotlightOpen, setSpotlightOpen, setControlCenterOpen, setAppleMenuOpen } = useSystemStore();
   const isMobile = useIsMobile();
 
@@ -13,6 +15,10 @@ export function useKeyboardShortcuts() {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Escape closes frontmost window or spotlight
       if (e.key === "Escape") {
+        if (quickLookOpen) {
+          closeQuickLook();
+          return;
+        }
         if (spotlightOpen) {
           setSpotlightOpen(false);
           return;
@@ -37,6 +43,8 @@ export function useKeyboardShortcuts() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [
     spotlightOpen,
+    quickLookOpen,
+    closeQuickLook,
     setSpotlightOpen,
     setControlCenterOpen,
     setAppleMenuOpen,

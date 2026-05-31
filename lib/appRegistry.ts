@@ -5,7 +5,7 @@ export const APP_DEFINITIONS: AppDefinition[] = [
     id: "finder",
     title: "About Me",
     icon: "finder",
-    defaultSize: { width: 720, height: 480 },
+    defaultSize: { width: 860, height: 520 },
     defaultPosition: { x: 120, y: 80 },
     dock: true,
     desktop: true,

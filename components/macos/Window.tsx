@@ -11,6 +11,7 @@ import { getDockIconElement } from "@/lib/dockRefs";
 import { getViewportWindowBounds } from "@/lib/windowBounds";
 import { TrafficLights } from "./TrafficLights";
 import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { WindowControlsProvider } from "@/contexts/WindowControlsContext";
 import Finder from "@/components/apps/Finder";
 import Projects from "@/components/apps/Projects";
 import Terminal from "@/components/apps/Terminal";
@@ -104,6 +105,20 @@ function WindowFrame({ appId, title, children }: WindowProps) {
   const isFocused = focusedWindowId === appId;
   const dragDisabled = isMobile || isTablet || win.isFullscreen;
   const viewportBounds = getViewportWindowBounds(win.position, win.size);
+  const usesUnifiedToolbar = appId === "finder" && !isMobile && !isTablet;
+
+  const windowControlsValue = {
+    onClose: () => closeWindow(appId),
+    onMinimize: handleMinimize,
+    onFullscreen: () => toggleFullscreen(appId),
+    isFullscreen: win.isFullscreen,
+    unifiedToolbar: usesUnifiedToolbar,
+    onDragStart: dragDisabled ? undefined : handlePointerDown,
+    onDragMove: dragDisabled
+      ? undefined
+      : (e: React.PointerEvent) => handlePointerMove(e, (pos) => updatePosition(appId, pos)),
+    onDragEnd: dragDisabled ? undefined : (e: React.PointerEvent) => handlePointerUp(e, win.position),
+  };
 
   const windowStyle: React.CSSProperties = isMinimizing
     ? minimizeStyle
@@ -157,38 +172,37 @@ function WindowFrame({ appId, title, children }: WindowProps) {
       exit={{ scale: 0.8, opacity: 0 }}
       transition={springConfig}
       style={windowStyle}
-      className={`flex flex-col overflow-hidden rounded-xl shadow-[var(--macos-shadow)] ${
-        isFocused ? "ring-1 ring-white/10" : ""
+      className={`flex flex-col overflow-hidden rounded-[10px] macos-window ${
+        isFocused ? "ring-1 ring-white/[0.08]" : "ring-1 ring-transparent"
       }`}
       onMouseDown={() => focusWindow(appId)}
     >
-      <div
-        className="flex h-11 flex-shrink-0 cursor-default items-center macos-glass-panel"
-        style={{ backdropFilter: "blur(20px)" }}
-      >
-        <TrafficLights
-          onClose={() => closeWindow(appId)}
-          onMinimize={handleMinimize}
-          onFullscreen={() => toggleFullscreen(appId)}
-          isFullscreen={win.isFullscreen}
-        />
+      {!usesUnifiedToolbar && (
         <div
-          className="flex flex-1 cursor-default items-center justify-center pr-[68px]"
-          onPointerDown={dragDisabled ? undefined : handlePointerDown}
-          onPointerMove={
-            dragDisabled ? undefined : (e) => handlePointerMove(e, (pos) => updatePosition(appId, pos))
-          }
-          onPointerUp={dragDisabled ? undefined : (e) => handlePointerUp(e, win.position)}
+          className="flex h-[52px] flex-shrink-0 cursor-default items-center border-b border-white/[0.06]"
+          style={{ background: "rgba(255,255,255,0.04)" }}
         >
-          <span className="text-sm font-medium text-white/60">{title}</span>
+          <TrafficLights
+            onClose={() => closeWindow(appId)}
+            onMinimize={handleMinimize}
+            onFullscreen={() => toggleFullscreen(appId)}
+            isFullscreen={win.isFullscreen}
+          />
+          <div
+            className="flex flex-1 cursor-default items-center justify-center pr-[68px]"
+            onPointerDown={dragDisabled ? undefined : handlePointerDown}
+            onPointerMove={
+              dragDisabled ? undefined : (e) => handlePointerMove(e, (pos) => updatePosition(appId, pos))
+            }
+            onPointerUp={dragDisabled ? undefined : (e) => handlePointerUp(e, win.position)}
+          >
+            <span className="text-[13px] font-semibold text-white/85">{title}</span>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div
-        className="flex min-h-0 flex-1 overflow-hidden macos-glass-panel"
-        style={{ backdropFilter: "blur(40px)", background: "rgba(255,255,255,0.08)" }}
-      >
-        {children}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <WindowControlsProvider value={windowControlsValue}>{children}</WindowControlsProvider>
       </div>
     </motion.div>
   );
